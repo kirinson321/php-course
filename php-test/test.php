@@ -9,9 +9,7 @@
     {
         public function format(Money $object, string $decimal, string $thousands): string
         {
-            // TODO: Implement format() method.
             $output = number_format($object->showAmount(), 2, $decimal, $thousands) . " " . $object->showCurrency();
-            //return number_format($object->showAmount(), 2, $decimal, $thousands);
             return $output;
         }
     }
@@ -67,14 +65,6 @@
     }
 
 
-//    $pieniazki = new Money('PLN', 100.00);
-//    $pieniazki2 = new Money('PLN', 125.00);
-//    echo "Wynik mnożenia: " . $pieniazki->multiplyMoney(10) . "\n";
-//    echo $pieniazki->divideMoney(4) . "\n";
-//    echo $pieniazki->addMoney($pieniazki2) . "\n";
-//    echo $pieniazki->subtractMonet($pieniazki2) . "\n";
-//    echo $argc;
-
     if(gettype($argv[1]) != "string")
     {
         throw new Exception("Jako pierwszy argument wywołania programu powinna zostać podana kwota");
@@ -89,5 +79,4 @@
 
     echo $sum->format($sum, '.', ' ');
 
-   //echo gettype($argv[3]);
 ?>
