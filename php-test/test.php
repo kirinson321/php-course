@@ -23,6 +23,9 @@ interface MoneyFormatter
 class CurrencyFormatter implements MoneyFormatter
 {
 
+    private $decimal;
+    private $thousands;
+
     /**
      * CurrencyFormatter constructor.
      */
@@ -32,10 +35,26 @@ class CurrencyFormatter implements MoneyFormatter
         $this->thousands = $thousands;
     }
 
-    public function format(Money $object)//, string $decimal, string $thousands)
+    /**
+     * @return string
+     */
+    public function getDecimal(): string
+    {
+        return $this->decimal;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThousands(): string
+    {
+        return $this->thousands;
+    }
+
+    public function format(Money $object)
     {
         // TODO: Implement format() method.
-        $output = number_format($object->showAmount(), 2, $this->decimal, $this->thousands);
+        $output = number_format($object->getAmount(), 2, $this->decimal, $this->thousands);
         return $output;
     }
 }
@@ -78,7 +97,7 @@ class Money extends CurrencyFormatter
         $this->amount = $this->amount / $times;
     }
 
-    public function addMoney(Money $second): void
+    public function addMoney(Money $second)
     {
         if ($this->currency != $second->currency) {
             throw new Exception("Kwoty powinny być w tych samych walutach");
@@ -95,6 +114,13 @@ class Money extends CurrencyFormatter
 
         $this->amount = $this->amount - $second->amount;
     }
+
+//    public function format(Money $object)
+//    {
+//        // TODO: Implement format() method.
+//
+//    }
+
 }
 
 
@@ -109,6 +135,10 @@ for ($i = 2; $i < $argc; $i++) {
     $sum->addMoney($second);
 }
 
+//echo var_dump($sum);
+//
+//if(isset($sum->)) {
+//    echo "\n\ndebug\n\n";
+//}
+
 echo $sum->format($sum, '.', ' ');
-
-
