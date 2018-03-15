@@ -1,4 +1,6 @@
 <?php
+namespace Product;
+use \Money\Money;
 
 interface IProduct
 {
