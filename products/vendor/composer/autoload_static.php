@@ -20,11 +20,16 @@ class ComposerStaticInit1e95af6f1700e134dbb5a171ad8d7e71
         ),
     );
 
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/../..' . '/src',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit1e95af6f1700e134dbb5a171ad8d7e71::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit1e95af6f1700e134dbb5a171ad8d7e71::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit1e95af6f1700e134dbb5a171ad8d7e71::$fallbackDirsPsr4;
 
         }, null, ClassLoader::class);
     }

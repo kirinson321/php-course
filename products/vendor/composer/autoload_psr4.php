@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Money\\' => array($vendorDir . '/moneyphp/money/src'),
+    '' => array($baseDir . '/src'),
 );
