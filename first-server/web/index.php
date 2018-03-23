@@ -6,14 +6,10 @@ use Money\Money;
 #echo "dupa";
 
 $app = new \Silex\Application();
-$app['debug'] = true;
+#$app['debug'] = true;
 
 $products_list = scandir("products/");
-
-//foreach($products_list as $item){
-//    if($item != '.' and $item != '..')
-//        echo $item . "\n";
-//}
+$products_list = array_diff($products_list, array('.', '..'));
 
 $app->get('/products', function () use ($products_list) {
     $output = '';
@@ -33,8 +29,8 @@ $app->get('products/{id}', function (Silex\Application $app, $id) use ($products
    }
 
    $product = $products_list[$id];
-
-   return "dupa";
+   //$output = var_dump($products_list);
+   return $product;
 });
 
 $app->run();
