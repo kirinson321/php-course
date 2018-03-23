@@ -5,13 +5,13 @@ use Money\Money;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#echo "dupa";
-
 $app = new \Silex\Application();
 $app['debug'] = true;
 
 $products_list = scandir("products/");
 $products_list = array_diff($products_list, array('.', '..'));
+
+$current_key = 1;
 
 $app->get('/products', function () use ($products_list) {
     $output = '';
@@ -30,28 +30,41 @@ $app->get('products/{id}', function (Silex\Application $app, $id) use ($products
        $app->abort(404, "Product with id $id does not exist");
    }
 
-    //$product = $products_list[$id];
-    //$output = var_dump($products_list);
     $filename = $products_list[$id];
     return $filename;
-    //return $product;
 });
 
-$app->post('/products', function (Request $request) use ($products_list) {
+$app->post('/products', function (Request $request) use ($products_list, $current_key) {
 
     $data = $request->request->all();
     $output = '';
+    $output .= $current_key;
+
+    $output_data = '';
+    $output_data .= "id: " . $current_key . "\n";
+
+    //file_put_contents("products/product" . $current_key, "id: $current_key");
 
     foreach($data as $key=>$value){
-        if(isset($products_list[$key])){
-            return new Response("Resource already exists", 409);
-        }
-
-        file_put_contents("products/product" . $key, $value);
-        $output .= $key . " ";
+        $output_data .= $key . ": " . $value . "\n";
     }
 
-    return new Response("Created files with ids: $output", 201);
+    file_put_contents("products/product" . $current_key, $output_data);
+
+    $current_key += 1;
+    return new Response("Created files with id: $output", 201);
+});
+
+
+$app->put('/products/{id}', function ($id, Request $request) use ($products_list) {
+    $data = $request->request->all();
+    $output = '';
+
+    foreach($data as $key=>$value) {
+
+
+    }
+
 });
 
 $app->delete('/products/{id}', function ($id, Silex\Application $app) use ($products_list) {
