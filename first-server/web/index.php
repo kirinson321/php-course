@@ -30,7 +30,18 @@ $app->get('products/{id}', function (Silex\Application $app, $id) use ($products
 
    $product = $products_list[$id];
    //$output = var_dump($products_list);
-   return $product;
+    $filename = $products_list[$id];
+    return $filename;
+   #return $product;
+});
+
+$app->delete('/products/{id}', function ($id, Silex\Application $app) use ($products_list) {
+    if(!isset($products_list[$id])) {
+       $app->abort(404, "Product with id $id does not exist");
+    }
+    $filename = $products_list[$id];
+    unlink("products/$filename");
+    return $filename;
 });
 
 $app->run();
