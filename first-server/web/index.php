@@ -11,7 +11,10 @@ $app['debug'] = true;
 $products_list = scandir("products/");
 $products_list = array_diff($products_list, array('.', '..'));
 
-//$current_key = 1;
+$app->get('', function(){
+   return "Obsługa obiektów typu Money w REST API";
+});
+
 
 $app->get('/products', function () use ($products_list) {
     $output = '';
@@ -35,7 +38,9 @@ $app->get('/products/{id}', function (Silex\Application $app, $id) {
     $output_data = '';
     $output_data .= file_get_contents("products/product" . $current_key);
 
-    return $output_data;
+    $output_text = json_decode($output_data);
+
+    return $output_text;
 });
 
 $app->post('/products', function (Request $request) {
@@ -43,19 +48,25 @@ $app->post('/products', function (Request $request) {
     $current_key = rand(0, 1000);
 
     $data = $request->request->all();
-    $output = '';
-    $output .= $current_key;
 
     $output_data = '';
     $output_data .= "id: " . $current_key . "\n";
+
+    $name = $data['name'];
+    $currency = $data['currency'];
+    $price = $data['price'];
+
+    $output_product = new Product\BasicProduct\BasicProduct($name, \Money\Money::$currency($price), $current_key);
 
     foreach($data as $key=>$value){
         $output_data .= $key . ": " . $value . "\n";
     }
 
-    file_put_contents("products/product" . $current_key, $output_data);
+    $json_output = json_encode($output_data);
 
-    return new Response("Created files with id: $output", 201);
+    file_put_contents("products/product" . $current_key, $json_output);
+
+    return new Response("Created files with id: $current_key", 201);
 });
 
 
@@ -73,7 +84,9 @@ $app->put('/products/{id}', function ($id, Request $request, Silex\Application $
         $output_data .= $key . ": " . $value . "\n";
     }
 
-    file_put_contents("products/product" . $current_key, $output_data);
+    $output_json = json_encode($output_data);
+
+    file_put_contents("products/product" . $current_key, $output_json);
     return new Response("File with id $current_key successfully updated", 200);
 });
 

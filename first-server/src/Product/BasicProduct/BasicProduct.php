@@ -8,11 +8,13 @@ class BasicProduct implements IProduct
 {
     private $name;
     private $price;
+    private $id;
 
-    public function __construct(string $sign, Money $object)
+    public function __construct(string $sign, Money $object, int $id)
     {
         $this->name = $sign;
         $this->price = $object;
+        $this->id = $id;
     }
 
     public function getName(): string
@@ -23,5 +25,10 @@ class BasicProduct implements IProduct
     public function getPrice(): Money
     {
         return $this->price;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

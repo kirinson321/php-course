@@ -2,5 +2,11 @@
     "require": {
         "silex/silex": "~2.0",
         "moneyphp/money": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/Product/IProduct.php",
+            "src/Product/BasicProduct/BasicProduct.php"
+        ]
     }
 }
