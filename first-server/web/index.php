@@ -58,6 +58,13 @@ $app->post('/products', function (Request $request) {
 
     $output_product = new Product\BasicProduct\BasicProduct($name, \Money\Money::$currency($price), $current_key);
 
+    if($output_product->getName() != 'follow')
+    {
+
+
+    }
+
+
     foreach($data as $key=>$value){
         $output_data .= $key . ": " . $value . "\n";
     }
