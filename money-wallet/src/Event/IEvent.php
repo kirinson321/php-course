@@ -1,8 +1,8 @@
 <?php
 
-namespace events;
+namespace Event;
 
 interface IEvent
 {
-    public function update(): void;
+    public function to_string(): string;
 }
