@@ -11,7 +11,7 @@ $number_of_deposits = $argv[2];
 $constructor_array = array();
 
 array_push($constructor_array, $argv[1]);
-
+array_push($constructor_array, 'activate');
 for ($x = 3; $x <= 2+$number_of_deposits; $x++) {
     $event = new \Event\DepositEvent\DepositEvent('deposit', $argv[$x], $argv[1]);
     array_push($constructor_array, $event->to_string());

@@ -67,43 +67,57 @@ class Wallet
 
     public function deposit(Money $moneyToDeposit)
     {
-        $amount = $moneyToDeposit->getAmount();
-        $currency = $moneyToDeposit->getCurrency();
-
-        if($currency != $this->currency)
+        if($this->isActive == false)
         {
-            throw new \Exception("Currencies do not match");
+            throw new \Exception("Account is inactive");
         } else
         {
-            $this->amount += (int)$amount;
+            $amount = $moneyToDeposit->getAmount();
+            $currency = $moneyToDeposit->getCurrency();
 
-            $event = new DepositEvent('deposit', $amount, $currency);
-            array_push($this->eventsArray, $event->to_string());
+            if($currency != $this->currency)
+            {
+                throw new \Exception("Currencies do not match");
+            } else
+            {
+                $this->amount += (int)$amount;
+
+                $event = new DepositEvent('deposit', $amount, $currency);
+                array_push($this->eventsArray, $event->to_string());
+            }
         }
     }
 
     public function withdraw(Money $moneyToWithdraw)
     {
-        $amount = $moneyToWithdraw->getAmount();
-        $currency = $moneyToWithdraw->getCurrency();
-
-        if($currency != $this->currency)
+        if($this->isActive == false)
         {
-            throw new \Exception("Currencies do not match");
+            throw new \Exception("Account is inactive");
         } else
         {
-            if((int)$amount > $this->amount)
+            $amount = $moneyToWithdraw->getAmount();
+            $currency = $moneyToWithdraw->getCurrency();
+
+            if($currency != $this->currency)
             {
-                throw new \Exception("Not enough money in the wallet");
+                throw new \Exception("Currencies do not match");
             } else
             {
+                if((int)$amount > $this->amount)
+                {
+                    throw new \Exception("Not enough money in the wallet");
+                } else
+                {
 
-                $this->amount -= (int)$amount;
+                    $this->amount -= (int)$amount;
 
-                $event = new WithdrawEvent('withdraw', $amount, $currency);
-                array_push($this->eventsArray, $event->to_string());
+                    $event = new WithdrawEvent('withdraw', $amount, $currency);
+                    array_push($this->eventsArray, $event->to_string());
+                }
             }
         }
+
+
     }
 
     public function deactivate(string $reason)
