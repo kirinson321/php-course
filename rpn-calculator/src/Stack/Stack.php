@@ -56,7 +56,7 @@ class Stack implements IStack
     {
         if($this->isEmpty())
         {
-            throw new Exception("Cannot pop from an empty stack");
+            throw new Exception("Cannot pop from an empty Stack");
         } else
         {
             $output = $this->tab[$this->pointer];
