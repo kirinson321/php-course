@@ -1,6 +1,7 @@
 <?php
 
 function print_diamond($word){
+    #$word_length = mb_strlen($word);
     $word_length = strlen(utf8_decode($word));
     $starting_point = (int)($word_length/2);    
     
@@ -21,19 +22,21 @@ function print_diamond($word){
         
         if($word_length%2 == 0)
         {        
-        for($j = $start_index; $j<$end_index; $j++)
-        {
-            $output = $output . $word[$j];    
-        }
+            for($j = $start_index; $j<$end_index; $j++)
+            {
+                $output = $output . $word[$j];    
+            }
         } else
         {
             for($j = $start_index; $j<=$end_index; $j++)
-        {
-            $output = $output . $word[$j];    
+            {
+                $output = $output . $word[$j];    
+            }
         }
-        }
+
         echo $spaces . $output;
         echo PHP_EOL;
+        
         $start_index = $start_index - 1;
         $end_index = $end_index + 1;
         $spaces = "";

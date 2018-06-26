@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Example" default="build">
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <!-- Delete using a fileset -->
+        <echo msg="Delete old build directories" />        
+        
+        <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
+        
+        <echo msg="Making directory ./build" />
+        <mkdir dir="./build" />
+        
+        <!-- some tasks here -->
+    </target>
+        
+    
+    <target name="repo_checkout" depends="prepare" >
+        <echo msg="TEST" />
+            <!-- clone repository -->
+        <gitclone
+        repository="git://github.com/PHP-DI/demo.git"
+        targetPath="./build" />
+
+        <!-- create and switch to "mybranch" branch -->
+        <gitcheckout
+        repository="./build"
+        branchname="master" quiet="true" create="false" />
+
+    </target>
+    
+    <target name="app_build" depends="repo_checkout">
+        <exec
+            command="/home/asia/Pulpit/composer/composer.phar install --working-dir ./build" />       
+
+   </target>
+
+    <!-- some targets here -->
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- ============================================  -->
+    <target name="build" depends="app_build">
+        <echo msg="Running dist task..." />
+        
+        <!-- some tasks here -->
+    </target>
+
+
+</project>
